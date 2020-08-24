@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head th:replace="layout/layout :: head"></head>
+
+<body class="bg-gradient-primary">
+	<header th:replace="layout/layout :: header"></header>
+  <div class="container">
+
+    <!-- Outer Row -->
+    <div class="row justify-content-center">
+
+      <div class="col-xl-10 col-lg-12 col-md-9">
+
+        <div class="card o-hidden border-0 shadow-lg my-5">
+          <div class="card-body p-0">
+            <!-- Nested Row within Card Body -->
+            <div class="row">
+              <div class="col-lg-6 d-none d-lg-block bg-login-image"></div>
+              <div class="col-lg-6">
+                <div class="p-5">
+                  <div class="text-center">
+                    <h4 class="h4 text-gray-900 mb-5" th:utext="#{texto.login.h4.titulo}"></h4>
+                  </div>
+                  <form th:action="@{/login}" method="post" class="user">
+							<div class="form-row">
+  								<div class="form-group col-12">
+    								<input type="text" name="username" id="username" class="form-control form-control-user" th:placeholder="#{texto.login.placeholder.username}" required autofocus>	
+  								</div>
+							</div>	
+							<div class="form-row">
+  								<div class="form-group col-12">
+    								<input type="password" name="password" id="password" class="form-control form-control-user" th:placeholder="#{texto.login.placeholder.password}" required>	
+  								</div>
+							</div>						
+							<div class="form-group mt-3">
+								<input type="submit" class="btn btn-primary btn-user btn-block" th:value="#{texto.login.value.acceder}">
+							</div>
+							<input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}">
+							<div class="form-group mt-4 mb-5">
+                    			<a th:href="@{/socio/crear}" class="btn btn-success btn-user btn-block user">Quiero darme de alta en el Club</a>
+                  			</div>
+						</form>
+						<hr>
+                  		<div class="text-center">
+                    		<a th:href="@{/restaurar-password}"><i class="fas fa-exclamation-triangle text-danger mr-2"></i><span th:utext="#{texto.login.password.restablecer}"></span></a>
+                  		</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+
+  </div>
+
+  <footer th:replace="layout/layout :: footer"></footer>
+
+</body>
+
+</html>

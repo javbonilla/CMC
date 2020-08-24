@@ -1,0 +1,352 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+	<head th:fragment="head">
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<title th:text="${titulo}"></title>
+		<!-- Bootstrap -->
+ 		<link rel="stylesheet" type="text/css" th:href="@{/css/bootstrap.css}"></link> 
+		<!-- Custom styles for this template-->
+  		<link rel="stylesheet" type="text/css" th:href="@{/css/sb-admin-2.css}"></link>
+		<!-- Google Fonts -->
+		<link href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i" rel="stylesheet">
+	</head>
+	
+	<header th:fragment="header">
+		<div class="container my-3">
+			<!-- Mensaje de éxito -->
+			<div th:if="${success != null}">
+				<div class="alert alert-success alert-dismissible fade show"
+					role="alert">
+					<strong> &iexcl;&Eacute;xito!&nbsp;</strong><span th:utext="${success}"></span>
+					<button type="button" class="close" data-dismiss="alert"
+						aria-label="Close">
+						<span aria-hidden="true">&times;</span>
+					</button>
+				</div>
+			</div>
+			<!-- Mensaje de error -->
+			<div th:if="${error != null}">
+				<div class="alert alert-danger alert-dismissible fade show"
+					role="alert">
+					<strong>&iexcl;Error!&nbsp;</strong><span th:utext="${error}"></span>
+					<button type="button" class="close" data-dismiss="alert"
+						aria-label="Close">
+						<span aria-hidden="true">&times;</span>
+					</button>
+				</div>
+			</div>
+			<!-- Mensaje de advertencia -->
+			<div th:if="${warning != null}">
+				<div class="alert alert-warning alert-dismissible fade show"
+					role="alert">
+					<strong>&iexcl;Advertencia!&nbsp;</strong><span th:utext="${warning}"></span>
+					<button type="button" class="close" data-dismiss="alert"
+						aria-label="Close">
+						<span aria-hidden="true">&times;</span>
+					</button>
+				</div>
+			</div>
+			<!-- Mensaje de informacion -->
+			<div th:if="${info != null}">
+				<div class="alert alert-info alert-dismissible fade show"
+					role="alert">
+					<strong>Informaci&oacute;n:&nbsp;</strong><span th:utext="${info}"></span>
+					<button type="button" class="close" data-dismiss="alert"
+						aria-label="Close">
+						<span aria-hidden="true">&times;</span>
+					</button>
+				</div>
+			</div>
+		</div>
+	</header>
+	
+	<!-- Page Heading -->
+	<div class="d-sm-flex align-items-center justify-content-between mb-4" th:fragment="page-heading">
+		<h1 class="h3 mb-0 text-gray-800" th:utext="${subtitulo}"></h1>
+	</div>
+	
+    <!-- Sidebar -->
+    <ul class="navbar-nav bg-gradient-secondary sidebar sidebar-dark accordion" id="accordionSidebar" th:fragment="sidebar">
+        <!-- Sidebar - Brand -->
+        <a class="sidebar-brand d-flex align-items-center justify-content-center" th:href="@{/}">
+            <div class="sidebar-brand-icon rotate-n-15">   
+                <i class="fas fa-running text-white bg-gradient-danger"></i>
+            </div>
+            <div class="sidebar-brand-text mx-3">CMC</div>
+         </a>
+
+      <!-- Divider -->
+      <hr class="sidebar-divider my-0">
+
+      <!-- Nav Item - Inicio -->
+      <li class="nav-item active">
+        <a class="nav-link" th:href="@{/}">
+          <i class="fas fa-fw fa-home"></i>
+          <span th:text="#{texto.index.inicio}"></span></a>
+      </li>
+
+      <!-- Divider -->
+      <hr class="sidebar-divider">
+
+      <!-- Heading -->
+      <div class="sidebar-heading" sec:authorize="hasRole('ROLE_ADMIN')">
+        <span th:utext="#{texto.index.administracion}"></span>
+      </div>
+
+      <!-- Administracion: SOCIOS -->
+      <li class="nav-item" sec:authorize="hasRole('ROLE_ADMIN')">
+        <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="true" aria-controls="collapseTwo">
+          <i class="fas fa-fw fa-user"></i>
+          <span th:text="#{texto.index.socios}"></span>
+        </a>
+        <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
+          <div class="bg-white py-2 collapse-inner rounded">
+            <a class="collapse-item" th:href="@{/}" th:text="#{texto.index.socios.alta}"></a>
+            <a class="collapse-item" th:href="@{/}" th:text="#{texto.index.socios.mantenimiento}"></a>
+          </div>
+        </div>
+      </li>
+
+      <!-- Administracion: EVENTOS -->
+      <li class="nav-item" sec:authorize="hasRole('ROLE_MANAGER')">
+        <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseUtilities" aria-expanded="true" aria-controls="collapseUtilities">
+          <i class="fas fa-fw fa-flag-checkered"></i>
+          <span th:text="#{texto.index.eventos}"></span>
+        </a>
+        <div id="collapseUtilities" class="collapse" aria-labelledby="headingUtilities" data-parent="#accordionSidebar">
+          <div class="bg-white py-2 collapse-inner rounded">
+            <a class="collapse-item" th:href="@{/}" th:text="#{texto.index.eventos.alta}"></a>
+            <a class="collapse-item" th:href="@{/}" th:text="#{texto.index.eventos.mantenimiento}"></a>
+          </div>
+        </div>
+      </li>
+
+      <!-- Divider -->
+      <hr class="sidebar-divider" sec:authorize="hasRole('ROLE_MANAGER')">
+
+      <!-- Heading -->
+      <div class="sidebar-heading">
+        <span th:text="#{texto.index.eventos}"></span>
+      </div>
+
+      <!-- PUBLICO: EVENTOS -->
+      <li class="nav-item">
+        <a class="nav-link" href="tables.html">
+          <i class="fas fa-fw fa-flag-checkered"></i>
+          <span th:text="#{texto.index.eventos.ver}"></span></a>
+      </li>
+      
+      <!-- Divider -->
+      <hr class="sidebar-divider">
+
+      <!-- Heading -->
+      <div class="sidebar-heading">
+		<span th:utext="#{texto.index.area-personal}"></span>
+      </div>
+
+      <!-- Nav Item - Mi perfil -->
+      <li class="nav-item">
+        <a class="nav-link" th:href="@{'/socio/ver/' + ${usuario.socio.id}}">
+          <i class="fas fa-fw fa-user"></i>
+          <span th:text="#{texto.index.area-personal.mi-perfil}"></span></a>
+      </li>
+      
+      <!-- Nav Item - Mis inscripciones -->
+      <li class="nav-item">
+        <a class="nav-link" th:href="@{'/}">
+          <i class="fas fa-fw fa-ticket-alt"></i>
+          <span th:text="#{texto.index.area-personal.mis-inscripciones}"></span></a>
+      </li>
+      
+            <!-- Nav Item - Cambiar password -->
+      <li class="nav-item">
+        <a class="nav-link" th:href="@{/cambiar-password}">
+          <i class="fas fa-fw fa-key"></i>
+          <span th:utext="#{texto.index.cambiar-password}"></span></a>
+      </li>
+      
+      <!-- Divider -->
+      <hr class="sidebar-divider d-none d-md-block mb-0">
+      
+      <!-- Nav Item - Cerrar sesion -->
+      <li class="nav-item" sec:authorize="isAuthenticated()">
+				<form class="form-inline" id="logoutForm" th:action="@{/logout}"
+					method="post">
+					<span>
+					<button class="btn nav-link font-weight-bold"
+						onclick="document.getElementById('logoutForm').submit();"
+						type="submit"><i class="fas fa-power-off mr-2 text-danger"></i> <span th:utext="#{texto.index.cerrar-sesion}"></span></button>
+					</span>
+				</form>
+	  </li>
+
+		<!-- Divider -->
+      <hr class="sidebar-divider d-none d-md-block">
+
+      <!-- Sidebar Toggler (Sidebar) -->
+      <div class="text-center d-none d-md-inline">
+        <button class="rounded-circle border-0" id="sidebarToggle"></button>
+      </div>
+
+    </ul>
+    <!-- End of Sidebar -->
+    
+		<!-- Topbar -->
+        <nav class="navbar navbar-expand navbar-light bg-white topbar mb-4 static-top shadow" th:fragment="topbar">
+
+          <!-- Sidebar Toggle (Topbar) -->
+          <button id="sidebarToggleTop" class="btn btn-link d-md-none rounded-circle mr-3">
+            <i class="fa fa-bars"></i>
+          </button>
+
+          <!-- Topbar Search -->
+          <form class="d-none d-sm-inline-block form-inline ml-md-3 my-2 my-md-0 mw-100">
+            <div class="input-group">
+              <!-- <input type="text" class="form-control bg-light border-0 small" placeholder="Search for..." aria-label="Search" aria-describedby="basic-addon2">
+              <div class="input-group-append">
+                <button class="btn btn-primary" type="button">
+                  <i class="fas fa-search fa-sm"></i>
+                </button>
+              </div> -->
+              <h4>
+              	<span th:text="${usuario.socio.nombre} + ' ' + ${usuario.socio.apellidos}"></span>
+              	<span class="badge badge-danger ml-2">
+              		<span th:if="${usuario.socio.esSocio()}" th:utext="#{texto.index.num-socio}"></span>
+              		<span th:if="${usuario.socio.esSocia()}" th:utext="#{texto.index.num-socia}"></span>
+              		<span th:text="${usuario.socio.id}"></span>
+              	</span>
+              	<span sec:authorize="hasRole('ROLE_MANAGER')" class="badge badge-info ml-2"><i class="fas fa-hammer mr-2"></i>Manager</span>
+              	<span sec:authorize="hasRole('ROLE_ADMIN')" class="badge badge-success ml-2"><i class="fas fa-user-cog mr-2"></i>Admin</span>
+              </h4>
+            </div>
+          </form>
+
+          <!-- Topbar Navbar -->
+          <ul class="navbar-nav ml-auto">
+
+            <!-- Nav Item - Alertas -->
+            <li class="nav-item dropdown no-arrow mx-1">
+              <a class="nav-link dropdown-toggle" href="#" id="alertsDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                <i class="fas fa-bell fa-fw"></i>
+                <!-- Counter - Alerts -->
+                <span class="badge badge-danger badge-counter">3+</span>
+              </a>
+              <!-- Dropdown - Alerts -->
+              <div class="dropdown-list dropdown-menu dropdown-menu-right shadow animated--grow-in" aria-labelledby="alertsDropdown">
+                <h6 class="dropdown-header">
+                  Alerts Center
+                </h6>
+                <a class="dropdown-item d-flex align-items-center" href="#">
+                  <div class="mr-3">
+                    <div class="icon-circle bg-primary">
+                      <i class="fas fa-file-alt text-white"></i>
+                    </div>
+                  </div>
+                  <div>
+                    <div class="small text-gray-500">December 12, 2019</div>
+                    <span class="font-weight-bold">A new monthly report is ready to download!</span>
+                  </div>
+                </a>
+                <a class="dropdown-item d-flex align-items-center" href="#">
+                  <div class="mr-3">
+                    <div class="icon-circle bg-success">
+                      <i class="fas fa-donate text-white"></i>
+                    </div>
+                  </div>
+                  <div>
+                    <div class="small text-gray-500">December 7, 2019</div>
+                    $290.29 has been deposited into your account!
+                  </div>
+                </a>
+                <a class="dropdown-item d-flex align-items-center" href="#">
+                  <div class="mr-3">
+                    <div class="icon-circle bg-warning">
+                      <i class="fas fa-exclamation-triangle text-white"></i>
+                    </div>
+                  </div>
+                  <div>
+                    <div class="small text-gray-500">December 2, 2019</div>
+                    Spending Alert: We've noticed unusually high spending for your account.
+                  </div>
+                </a>
+                <a class="dropdown-item text-center small text-gray-500" href="#">Show All Alerts</a>
+              </div>
+            </li>
+
+            <div class="topbar-divider d-none d-sm-block"></div>
+
+            <!-- Nav Item - Informacion de usuario -->
+            <li class="nav-item dropdown no-arrow">
+              <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                <span class="mr-2 d-none d-lg-inline text-gray-600 small" th:text="${usuario.socio.nombre + ' ' + usuario.socio.apellidos}"></span>
+					<img class="img-profile rounded-circle"th:if="${#strings.length(usuario.socio.foto) > 0}" th:src="@{'/uploads/socios/' + ${usuario.socio.foto}}"  th:alt="${'Foto de perfil'}" />
+					<img class="img-profile rounded-circle" th:if="${#strings.length(usuario.socio.foto) == 0} AND ${usuario.socio.esSocio()}" th:src="@{'/img/blank_profile_m.jpg'}"  th:alt="${'Socio sin foto de perfil'}" />
+					<img class="img-profile rounded-circle" th:if="${#strings.length(usuario.socio.foto) == 0} AND ${usuario.socio.esSocia()}" th:src="@{'/img/blank_profile_w.jpg'}"  th:alt="${'Socia sin foto de perfil'}" />
+              </a>
+              <!-- Dropdown - User Information -->
+              <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in" aria-labelledby="userDropdown">
+                <a class="dropdown-item" th:href="@{'/socio/ver/' + ${usuario.socio.id}}">
+                  <i class="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i>
+                  <span th:text="#{texto.index.area-personal.mi-perfil}"></span>
+                </a>
+                <a class="dropdown-item" th:href="@{/cambiar-password}">
+                  <i class="fas fa-key fa-sm fa-fw mr-2 text-gray-400"></i>
+                  <span th:utext="#{texto.index.cambiar-password}"></span>
+                </a>
+                <div class="dropdown-item">
+                	<form class="form-inline" id="logoutForm" th:action="@{/logout}" method="post">
+						<button class="btn btn-sm dropdown-item px-0 btn-outline-light"
+							onclick="document.getElementById('logoutForm').submit();"
+							type="submit">
+							<i class="fas fa-power-off fa-sm fa-fw mr-2 text-danger"></i> 
+							<span th:utext="#{texto.index.cerrar-sesion}"></span>
+						</button>
+					</form>
+                </div>
+              </div>
+            </li>
+
+          </ul>
+
+        </nav>
+        <!-- End of Topbar -->    
+
+	<footer th:fragment="footer">
+		<div class="container-fluid my-auto bg-white py-4" th:if="${noMostrarPie == null}">
+          <div class="copyright text-center my-auto">
+            <span>
+            	<i class="fas fa-running text-danger mr-2"></i> 
+            	<span th:utext="#{texto.footer.footer}"></span>
+            	<span th:text="${#dates.year(#dates.createNow())}"></span>
+            </span>
+          </div>
+        </div>
+        
+        <!-- Font Awesome -->
+		<script src="https://kit.fontawesome.com/933f9cc66c.js" crossorigin="anonymous"></script>
+		<!-- Bootstrap core JavaScript-->
+  		<script th:src="@{/vendor/jquery/jquery.min.js}"></script>
+  		<script th:src="@{/vendor/bootstrap/js/bootstrap.bundle.min.js}"></script>
+
+  		<!-- Core plugin JavaScript-->
+  		<script th:src="@{/vendor/jquery-easing/jquery.easing.min.js}"></script>
+
+  		<!-- Custom scripts for all pages-->
+  		<script th:src="@{/js/sb-admin-2.min.js}"></script>
+
+  		<!-- Page level plugins -->
+  		<script th:src="@{/vendor/chart.js/Chart.min.js}"></script>
+
+  		<!-- Page level custom scripts -->
+  		<script th:src="@{/js/demo/chart-area-demo.js}"></script>
+  		<script th:src="@{/js/demo/chart-pie-demo.js}"></script>
+  		<script th:src="@{/js/demo/chart-bar-demo.js}"></script>
+	</footer>
+	
+	<!-- Scroll to Top Button-->
+	<a class="scroll-to-top rounded" href="#page-top" th:fragment="scroll-top-button">
+    	<i class="fas fa-angle-up"></i>
+  	</a>
+	
+</html>

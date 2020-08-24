@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head th:replace="layout/layout :: head"></head>
+
+<body id="page-top">
+  <!-- Page Wrapper -->
+  <div id="wrapper">
+
+    <ul th:replace="layout/layout :: sidebar"></ul>
+
+    <!-- Content Wrapper -->
+    <div id="content-wrapper" class="d-flex flex-column">
+
+      <!-- Main Content -->
+      <div id="content">
+
+        <nav th:replace="layout/layout :: topbar"></nav>
+
+        <!-- Begin Page Content -->
+        <div class="container-fluid">
+        
+			<header th:replace="layout/layout :: header"></header>
+          	<div th:replace="layout/layout :: page-heading"></div>
+
+          <!-- Content Row -->
+          <div class="row justify-content-center">
+			<div class="col-lg-10">
+              <div class="card shadow mb-4">
+                <!-- Card Header - Dropdown -->
+                <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                  <h6 class="m-0 font-weight-bold text-primary">
+                  	<span th:if="${socio.esSocio()}" th:utext="#{texto.socio.ver.ficha-socio}"></span>
+              		<span th:if="${socio.esSocia()}" th:utext="#{texto.socio.ver.ficha-socia}"></span>
+                  </h6>
+                </div>
+                <!-- Card Body -->
+                <div class="card-body">
+                	<form th:action="@{/socio/gestionar}" method="POST" th:object="${socio}" enctype="multipart/form-data" class="user">
+                		<div class="form-row">
+                			<div class="form-group col-12 col-lg-4 col-xl-3 bg-light my-auto text-center">
+                				<img class="img-fluid px-3 px-sm-4 mt-3 mb-4 rounded-personalizado" style="width: 25rem;" th:if="${#strings.length(socio.foto) > 0}" th:src="@{'/uploads/socios/' + ${socio.foto}}"  th:alt="${'Foto de perfil'}" />
+								<img class="img-fluid px-3 px-sm-4 mt-3 mb-4 rounded-personalizado" style="width: 25rem;" th:if="${#strings.length(socio.foto) == 0} AND ${socio.esSocio()}" th:src="@{'/img/blank_profile_m.jpg'}"  th:alt="${'Socio sin foto de perfil'}" />
+								<img class="img-fluid px-3 px-sm-4 mt-3 mb-4 rounded-personalizado" style="width: 25rem;" th:if="${#strings.length(socio.foto) == 0} AND ${socio.esSocia()}" th:src="@{'/img/blank_profile_w.jpg'}"  th:alt="${'Socia sin foto de perfil'}" />
+								<input type="file" name="file" id="file" class="form-control-file form-control-user" />
+                			</div>
+                			<div class="col-12 col-lg-8 col-xl-9">
+                				<div class="form-row">
+                					<div class="form-group col-12">
+                						<h6 class="text-primary font-weight-bold" th:text="#{texto.socio.datos-personales}"></h6>
+                					</div>
+                					<div class="form-group col-12 col-md-6 col-xl-4">
+                						<label class="text-dark px-3 col-form-label col-form-label-sm" for="nombre"><i class="fas fa-user text-primary mr-2"></i><span th:text="#{texto.socio.nombre}"></span></label>
+                						<input type="text" class="form-control" th:placeholder="#{texto.socio.nombre}" 
+                					      		th:errorclass="is-invalid" th:classappend="${!#fields.hasErrors('nombre')} and ${submitted} ? is-valid" th:field="*{nombre}" autofocus />
+				                      	<div th:if="${#fields.hasErrors('nombre')}" th:errors="*{nombre}" class="invalid-feedback"></div>
+										<div th:if="${!#fields.hasErrors('nombre')}" class="valid-feedback" th:text="#{texto.general.correcto}"></div>
+                					</div>
+                					<div class="form-group col-12 col-md-6 col-xl-8">
+                						<label class="text-dark px-3 col-form-label col-form-label-sm" for="apellidos"><i class="fas fa-user text-primary mr-2"></i><span th:text="#{texto.socio.apellidos}"></span></label>
+                						<input type="text" class="form-control" th:placeholder="#{texto.socio.apellidos}" 
+                					      		th:errorclass="is-invalid" th:classappend="${!#fields.hasErrors('apellidos')} and ${submitted} ? is-valid" th:field="*{apellidos}" />
+				                      	<div th:if="${#fields.hasErrors('apellidos')}" th:errors="*{apellidos}" class="invalid-feedback"></div>
+										<div th:if="${!#fields.hasErrors('apellidos')}" class="valid-feedback" th:text="#{texto.general.correcto}"></div>
+                					</div>
+                					<div class="form-group col-12 col-md-6 col-xl-4">
+                						<label class="text-dark px-3 col-form-label col-form-label-sm" for="sexo"><i class="fas fa-venus-mars text-primary mr-2"></i><span th:text="#{texto.socio.sexo}"></span></label>
+                						<select id="sexo" th:field="*{sexo}" class="form-control"
+                							th:errorclass="is-invalid" th:classappend="${!#fields.hasErrors('sexo')} and ${submitted} ? is-valid" >
+											<option th:each="sexo: ${paramSexo.entrySet()}" th:text="${sexo.value}" th:value="${sexo.key}"></option>
+										</select>
+										<div th:if="${#fields.hasErrors('sexo')}" th:errors="*{sexo}" class="invalid-feedback"></div>
+										<div th:if="${!#fields.hasErrors('sexo')}" class="valid-feedback" th:text="#{texto.general.correcto}"></div>
+                					</div>
+                					<div class="form-group col-12 col-md-6 col-xl-4">
+                						<label class="text-dark px-3 col-form-label col-form-label-sm" for="nif"><i class="fas fa-passport text-primary mr-2"></i><span th:text="#{texto.socio.nif}"></span></label>
+                						<input type="text" class="form-control" th:placeholder="#{texto.socio.nif}" 
+                					      		th:errorclass="is-invalid" th:classappend="${!#fields.hasErrors('nif')} and ${submitted} ? is-valid" th:field="*{nif}" />
+				                      	<div th:if="${#fields.hasErrors('nif')}" th:errors="*{nif}" class="invalid-feedback"></div>
+										<div th:if="${!#fields.hasErrors('nif')}" class="valid-feedback" th:text="#{texto.general.correcto}"></div>
+                					</div>
+                					<div class="form-group col-12 col-md-6 col-xl-4">
+                						<label class="text-dark px-3 col-form-label col-form-label-sm" for="fNacimiento"><i class="fas fa-birthday-cake text-primary mr-2"></i><span th:text="#{texto.socio.f-nacim}"></span></label>
+                						<input type="date" class="form-control" th:placeholder="#{texto.socio.f-nacim}" 
+                					      		th:errorclass="is-invalid" th:classappend="${!#fields.hasErrors('fNacimiento')} and ${submitted} ? is-valid" th:field="*{fNacimiento}" />
+				                      	<div th:if="${#fields.hasErrors('fNacimiento')}" th:errors="*{fNacimiento}" class="invalid-feedback"></div>
+										<div th:if="${!#fields.hasErrors('fNacimiento')}" class="valid-feedback" th:text="#{texto.general.correcto}"></div>
+                					</div>
+                					<div class="form-group col-12 col-md-6 col-xl-4">
+                						<label class="text-dark px-3 col-form-label col-form-label-sm" for="telefono"><i class="fas fa-mobile-alt text-primary mr-2"></i><span th:text="#{texto.socio.telefono}"></span></label>
+                						<input type="text" class="form-control" th:placeholder="#{texto.socio.telefono}" 
+                					      		th:errorclass="is-invalid" th:classappend="${!#fields.hasErrors('telefono')} and ${submitted} ? is-valid" th:field="*{telefono}" />
+				                      	<div th:if="${#fields.hasErrors('telefono')}" th:errors="*{telefono}" class="invalid-feedback"></div>
+										<div th:if="${!#fields.hasErrors('telefono')}" class="valid-feedback" th:text="#{texto.general.correcto}"></div>
+                					</div>
+                					<div class="form-group col-12 col-md-6 col-xl-8">
+                						<label class="text-dark px-3 col-form-label col-form-label-sm" for="email"><i class="fas fa-at text-primary mr-2"></i><span th:text="#{texto.socio.email}"></span></label>
+                						<input type="text" class="form-control" th:placeholder="#{texto.socio.email}" 
+                					      		th:errorclass="is-invalid" th:classappend="${!#fields.hasErrors('email')} and ${submitted} ? is-valid" th:field="*{email}" />
+				                      	<div th:if="${#fields.hasErrors('email')}" th:errors="*{email}" class="invalid-feedback"></div>
+										<div th:if="${!#fields.hasErrors('email')}" class="valid-feedback" th:text="#{texto.general.correcto}"></div>
+                					</div>
+                					<div class="form-group col-12 col-md-6 col-xl-4" sec:authorize="hasRole('ROLE_ADMIN')">
+                						<label class="text-success px-3 col-form-label col-form-label-sm" for="cuota"><i class="fas fa-user-tag mr-2"></i><span th:text="#{texto.socio.cuota}"></span><strong>(ADMIN)</strong></label>
+                						<select id="cuota" th:field="*{cuota}" class="form-control"
+                							th:errorclass="is-invalid" th:classappend="${!#fields.hasErrors('cuota')} and ${submitted} ? is-valid" >
+											<option th:each="cuota: ${paramCuota.entrySet()}" th:text="${cuota.value}" th:value="${cuota.key}"></option>
+										</select>
+										<div th:if="${#fields.hasErrors('cuota')}" th:errors="*{cuota}" class="invalid-feedback"></div>
+										<div th:if="${!#fields.hasErrors('cuota')}" class="valid-feedback" th:text="#{texto.general.correcto}"></div>
+                					</div>
+                					<div class="form-group col-12 col-md-6 col-xl-8" sec:authorize="hasRole('ROLE_ADMIN')">
+                						<label class="text-success px-3 col-form-label col-form-label-sm" for="roles"><i class="fas fa-toolbox mr-2"></i><span th:text="#{texto.socio.roles}"></span><strong>(ADMIN)</strong></label>
+                						<select id="rol" name="rol" class="form-control">
+											<option th:each="rol: ${paramRol.entrySet()}" 
+												th:text="${rol.value}" th:value="${rol.key}"
+												th:selected="${rol.value} == ${rolusuario}" >
+												</option>
+										</select>
+										<input type="hidden" th:value="${rolusuarioAnt}" id="rolusuario" name="rolusuario" />
+                					</div>
+                				</div>
+                				<div class="form-row mt-3">
+                					<div class="form-group col-12">
+                						<h6 class="text-primary font-weight-bold" th:text="#{texto.socio.inscripciones}"></h6>
+                					</div>
+                					<div class="form-group col-12 col-md-6 col-xl-4">
+                						<label class="text-dark px-3 col-form-label col-form-label-sm" for="talla"><i class="fas fa-tshirt text-primary mr-2"></i><span th:text="#{texto.socio.talla-defecto}"></span></label>
+                						<select id="talla" th:field="*{talla}" class="form-control"
+                							th:errorclass="is-invalid" th:classappend="${!#fields.hasErrors('talla')} and ${submitted} ? is-valid" >
+											<option th:text="#{texto.socio.sin-talla}" value=""></option>
+											<option th:each="talla: ${paramTalla.entrySet()}" th:text="${talla.value}" th:value="${talla.key}"></option>
+										</select>
+										<div th:if="${#fields.hasErrors('talla')}" th:errors="*{talla}" class="invalid-feedback"></div>
+										<div th:if="${!#fields.hasErrors('talla')}" class="valid-feedback" th:text="#{texto.general.correcto}"></div>
+                					</div>
+                					<div class="form-group col-12 col-md-6 col-xl-8">
+                						<label class="text-dark px-3 col-form-label col-form-label-sm" for="dorsalPersonalizado"><i class="fas fa-font text-primary mr-2"></i><span th:text="#{texto.socio.dorsal}"></span></label>
+                						<input type="text" class="form-control" th:placeholder="#{texto.socio.sin-dorsal}" 
+                					      		th:errorclass="is-invalid" th:classappend="${!#fields.hasErrors('dorsalPersonalizado')} and ${submitted} ? is-valid" th:field="*{dorsalPersonalizado}" />
+				                      	<div th:if="${#fields.hasErrors('dorsalPersonalizado')}" th:errors="*{dorsalPersonalizado}" class="invalid-feedback"></div>
+										<div th:if="${!#fields.hasErrors('dorsalPersonalizado')}" class="valid-feedback" th:text="#{texto.general.correcto}"></div>
+                					</div>
+                					<div class="form-group col-12 col-md-6 col-xl-12">
+                						<label class="text-dark px-3 col-form-label col-form-label-sm" for="observaciones"><i class="fas fa-align-left text-primary mr-2"></i><span th:text="#{texto.socio.observaciones}"></span></label>
+                						<textarea class="form-control" th:placeholder="#{texto.socio.sin-observaciones}" 
+                					      		th:errorclass="is-invalid" th:classappend="${!#fields.hasErrors('observaciones')} and ${submitted} ? is-valid" th:field="*{observaciones}" ></textarea>
+				                      	<div th:if="${#fields.hasErrors('observaciones')}" th:errors="*{observaciones}" class="invalid-feedback"></div>
+										<div th:if="${!#fields.hasErrors('observaciones')}" class="valid-feedback" th:text="#{texto.general.correcto}"></div>
+                					</div>
+                				</div>
+                				<div class="form-row mt-3">
+                					<div class="form-group col-12">
+                						<h6 class="text-primary font-weight-bold" th:text="#{texto.socio.datos-economicos}"></h6>
+                					</div>
+                					<div class="form-group col-12 col-md-6 col-xl-6">
+                						<label class="text-dark px-3 col-form-label col-form-label-sm" for="cuentaeditar"><i class="fas fa-euro-sign text-primary mr-2"></i><span th:text="#{texto.socio.cuenta-bancaria}"></span></label>
+                						<div class="form-inline">
+                							<input type="text" class="form-control w-75" th:placeholder="#{texto.socio.nueva-cuenta-bancaria}" 
+                								id="cuentaeditar" name="cuentaeditar" th:value="${cuentaeditar}" />
+                							<a class="btn btn-warning btn-sm ml-2" id="activar-cuenta-input"><i class="fas fa-pen text-dark"></i></a>
+                						</div>
+                						<div th:if="${cuentaeditarvalidado == '2'} and ${submitted}" th:text="#{texto.socio.error-cuenta}" class="d-block invalid-feedback"></div>
+										<div th:if="${cuentaeditarvalidado == '1'} and ${submitted}" class="d-block valid-feedback" th:text="#{texto.general.correcto}"></div>
+										<input type="hidden" th:value="${cuentaeditarvalidado}" id="cuentaeditarvalidado" />
+                					</div>
+                				</div>
+                			</div>
+                		</div>
+                		<div class="form-row my-4">
+                			<div class="form-group col-12 text-center">
+                				<button type="submit" class="btn btn-sm btn-success btn-icon-split">
+                    				<span class="icon text-white-50">
+                      					<i class="fas fa-check"></i>
+                    				</span>	
+                    				<span class="text" th:text="#{texto.general.guardar}"></span>
+                  				</button>
+                  				<a th:href="@{'/socio/ver/' + ${socio.id}}" class="btn btn-sm btn-info btn-icon-split ml-2">
+                    				<span class="icon text-white-50">
+                      					<i class="fas fa-arrow-left"></i>
+                    				</span>	
+                    				<span class="text" th:text="#{texto.general.volver}"></span>
+                  				</a>
+                			</div>
+                		</div>
+                	</form>
+                </div>
+              </div>
+            </div>
+		  </div>
+          <!-- Content Row -->
+
+        </div>
+        <!-- /.container-fluid -->
+
+      </div>
+      <!-- End of Main Content -->
+
+      <!-- Footer -->
+      <footer th:replace="layout/layout :: footer"></footer>
+      <!-- End of Footer -->
+
+    </div>
+    <!-- End of Content Wrapper -->
+
+  </div>
+  <!-- End of Page Wrapper -->
+
+  <!-- Scroll to Top Button-->
+  <a th:replace="layout/layout :: scroll-top-button"></a>
+  
+  <script>
+  	$(document).ready(function(){
+		$("#activar-cuenta-input").click(function(){
+          	if($('#cuentaeditar').prop("disabled") == true){
+            	  $('#cuentaeditar').prop("disabled", false);
+            	  $('#cuentaeditar').val("");
+            	  $('#cuentaeditar').focus();
+          	}
+      	});
+		
+		// cuentaeditarvalidado = 0: no se ha modificado la cuenta.
+		if($('#cuentaeditarvalidado').val() === '0') {
+			$('#cuentaeditar').prop("disabled", true);
+			$('#cuentaeditar').removeClass("is-valid");
+			$('#cuentaeditar').removeClass("is-invalid");
+		}
+		
+		// cuentaeditarvalidado = 1: cuenta modificada y validada OK.
+		if($('#cuentaeditarvalidado').val() === '1') {
+			$('#cuentaeditar').prop("disabled", false);
+			$('#cuentaeditar').addClass("is-valid");
+			$('#cuentaeditar').removeClass("is-invalid");
+		}
+		
+		// cuentaeditarvalidado = 2: cuenta modificada y no validada.
+		if($('#cuentaeditarvalidado').val() === '2') {
+			$('#cuentaeditar').prop("disabled", false);
+			$('#cuentaeditar').removeClass("is-valid");
+			$('#cuentaeditar').addClass("is-invalid");
+		}
+  	});
+  </script>
+
+</body>
+
+</html>

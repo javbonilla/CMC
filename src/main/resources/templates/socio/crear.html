@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head th:replace="layout/layout :: head"></head>
+
+<body class="bg-gradient-primary">
+	<header th:replace="layout/layout :: header"></header>
+  <div class="container">
+
+    <!-- Outer Row -->
+    <div class="row justify-content-center">
+
+      <div class="col-xl-10 col-lg-12 col-md-9">
+
+        <div class="card o-hidden border-0 shadow-lg my-5">
+          <div class="card-body p-0">
+            <!-- Nested Row within Card Body -->
+            <div class="row">
+              <div class="col-lg-4 d-none d-lg-block bg-alta-socio"></div>
+              <div class="col-lg-8">
+                <div class="p-5">
+                  <div class="text-center">
+                    <h4 class="h4 text-gray-900 mb-4" th:utext="#{texto.socio.crear.subtitulo}"></h4>
+                  </div>
+                  <form class="user" th:action="@{/socio/crear}" method="POST" th:object="${socio}">
+                  	<div class="form-group col-12">
+                		<h6 class="text-primary font-weight-bold" th:text="#{texto.socio.datos-personales}"></h6>
+                	</div>
+                  	<div class="form-row">
+                      <div class="form-group col-12 col-md-6 col-xl-4">
+                		<label class="text-dark px-3 col-form-label col-form-label-sm" for="nombre"><i class="fas fa-user text-primary mr-2"></i><span th:text="#{texto.socio.nombre}"></span></label>
+                		<input type="text" class="form-control" th:placeholder="#{texto.socio.nombre}" 
+							th:errorclass="is-invalid" th:classappend="${!#fields.hasErrors('nombre')} and ${submitted} ? is-valid" th:field="*{nombre}" autofocus />
+						<div th:if="${#fields.hasErrors('nombre')}" th:errors="*{nombre}" class="invalid-feedback"></div>
+						<div th:if="${!#fields.hasErrors('nombre')}" class="valid-feedback" th:text="#{texto.general.correcto}"></div>
+                	  </div>
+                      <div class="form-group col-12 col-md-6 col-xl-8">
+                      	<input type="text" class="form-control" th:placeholder="#{texto.socio.apellidos}" 
+                      		th:errorclass="is-invalid" th:classappend="${!#fields.hasErrors('apellidos')} and ${submitted} ? is-valid" th:field="*{apellidos}" />
+                      	<div th:if="${#fields.hasErrors('apellidos')}" th:errors="*{apellidos}" class="invalid-feedback"></div>
+						<div th:if="${!#fields.hasErrors('apellidos')}" class="valid-feedback" th:text="#{texto.general.correcto}"></div>
+                      </div>
+                    </div>	
+                    <div class="form-row">
+                      <div class="form-group col-12 col-md-6 col-xl-4">
+                      	<input type="text" class="form-control" th:placeholder="#{texto.socio.nif}" 
+                      		th:errorclass="is-invalid" th:classappend="${!#fields.hasErrors('nif')} and ${submitted} ? is-valid" th:field="*{nif}" autofocus />
+                      	<div th:if="${#fields.hasErrors('nif')}" th:errors="*{nif}" class="invalid-feedback"></div>
+						<div th:if="${!#fields.hasErrors('nif')}" class="valid-feedback" th:text="#{texto.general.correcto}"></div>
+                      </div>
+                      <div class="form-group col-12 col-md-6 col-xl-4">
+                      	<select id="sexo" th:field="*{sexo}" class="form-control"
+                			th:errorclass="is-invalid" th:classappend="${!#fields.hasErrors('sexo')} and ${submitted} ? is-valid" >
+							<option th:text="#{texto.general.selecciona}" value="" selected></option>
+							<option th:each="sexo: ${paramSexo.entrySet()}" th:text="${sexo.value}" th:value="${sexo.key}"></option>
+						</select>
+						<div th:if="${#fields.hasErrors('sexo')}" th:errors="*{sexo}" class="invalid-feedback"></div>
+						<div th:if="${!#fields.hasErrors('sexo')}" class="valid-feedback" th:text="#{texto.general.correcto}"></div>
+                      </div>
+                      <div class="form-group col-12 col-md-6 col-xl-4">
+                      	<input type="date" class="form-control" th:placeholder="#{texto.socio.f-nacim}" 
+							th:errorclass="is-invalid" th:classappend="${!#fields.hasErrors('fNacimiento')} and ${submitted} ? is-valid" th:field="*{fNacimiento}" />
+				        <div th:if="${#fields.hasErrors('fNacimiento')}" th:errors="*{fNacimiento}" class="invalid-feedback"></div>
+						<div th:if="${!#fields.hasErrors('fNacimiento')}" class="valid-feedback" th:text="#{texto.general.correcto}"></div>
+                      </div>
+                    </div>	
+                  </form>
+                  <hr>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+
+  </div>
+
+  <footer th:replace="layout/layout :: footer"></footer>
+
+</body>
+
+</html>

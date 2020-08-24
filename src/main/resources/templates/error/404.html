@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+
+<head th:fragment="head">
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>404</title>
+	<!-- Bootstrap -->
+ 	<link rel="stylesheet" type="text/css" th:href="@{/css/bootstrap.css}"></link> 
+	<!-- Custom styles for this template-->
+  	<link rel="stylesheet" type="text/css" th:href="@{/css/sb-admin-2.css}"></link>
+  	<link rel="stylesheet" type="text/css" th:href="@{/css/sb-admin-2.min.css}"></link>
+	<!-- Google Fonts -->
+	<link href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i" rel="stylesheet">
+</head>
+
+<body style="background-color: #f8f9fc;">
+
+  <!-- Page Wrapper -->
+  <div id="wrapper" class="h-100">
+
+    <!-- Content Wrapper -->
+    <div id="content-wrapper" class="d-flex flex-column">
+
+      <!-- Main Content -->
+      <div id="content">
+
+        <!-- Begin Page Content -->
+        <div class="container-fluid">
+
+          <!-- 404 Error Text -->
+          <div class="row h-100 my-5 py-5">
+          	<div class="col-12 my-auto">
+          		<div class="text-center">
+            	<div class="error mx-auto" data-text="404">404</div>
+            	<p class="lead text-gray-800 mb-5" th:text="#{texto.404.not-found}"></p>
+            	<p class="text-gray-500 mb-0" th:text="#{texto.404.mensaje}"></p>
+            	<a th:href="@{/}" th:utext="#{texto.404.volver}"></a>
+          </div>
+          	</div>
+          </div>
+
+        </div>
+        <!-- /.container-fluid -->
+
+      </div>
+      <!-- End of Main Content -->
+
+ 
+
+    </div>
+    <!-- End of Content Wrapper -->
+
+  </div>
+  <!-- End of Page Wrapper -->
+  
+  <!-- Font Awesome -->
+  <script src="https://kit.fontawesome.com/933f9cc66c.js" crossorigin="anonymous"></script>
+
+</body>
+
+</html>
