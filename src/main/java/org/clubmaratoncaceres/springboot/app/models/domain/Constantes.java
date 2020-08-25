@@ -20,7 +20,7 @@ public final class Constantes {
     public static final int MAYOR_EDAD = 18;
     
     public static final String EMAIL_FROM = "noresponder@clubmaratoncaceres.org";
-    public static final String EMAIL_PASSWORD = "G!p7vcmaVVeymR5";
+    public static final String EMAIL_PASSWORD = "";
     public static final String EMAIL_REPLY_TO = "clubmaratoncaceres@gmail.com";
     public static final String EMAIL_CMC = "Club Maratón Cáceres";
     public static final String EMAIL_HOST = "smtp.ionos.es";
